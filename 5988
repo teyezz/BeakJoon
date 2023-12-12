@@ -1,0 +1,26 @@
+using System;
+using System.Collections.Generic;
+
+class 5988
+{
+    static void Main(string[] args)
+    {
+        string result =string.Empty;
+        uint i = uint.Parse(Console.ReadLine());
+        string cur;
+        for (int x = 0;  x < i; x++)
+        {
+            cur = Console.ReadLine();
+
+            if ((int)(cur[cur.Length-1]) % 2 != 0)
+            {
+                result += "odd\n";
+            }
+            else if ((int)(cur[cur.Length - 1]) % 2 == 0)
+            {
+                result += "even\n";
+            }
+        }
+        Console.WriteLine(result);
+    }
+}
