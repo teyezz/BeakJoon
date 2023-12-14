@@ -1,0 +1,26 @@
+using System;
+using System.Collections.Generic;
+
+​
+
+class 5717
+{
+    static void Main(string[] args)
+    {
+        string result =string.Empty;
+
+        string[] input;
+
+      
+
+        while (true)
+        {
+            input = Console.ReadLine().Split();
+
+            if (input[0] == "0" && input[1] == "0") break;
+
+            result += (int.Parse(input[0]) + int.Parse(input[1])).ToString() + "\n";
+        }
+        Console.WriteLine(result);
+    }
+}
