@@ -1,0 +1,37 @@
+using System;
+using System.Collections.Generic;
+
+class 5704
+{
+    static void Main(string[] args)
+    {
+        string input;
+        string result = string.Empty;
+        HashSet<char> set = new HashSet<char>();
+        while (true)
+        {
+            input = Console.ReadLine();
+            if (input == "*") 
+            {
+                break;
+            }
+            for(int x = 0; x < input.Length; x++)
+            {
+                if(input[x] != ' ')
+                {
+                    set.Add(input[x]);
+                }
+            }
+            if(set.Count == 26)
+            {
+                result += "Y\n";
+            }
+            else if(set.Count < 26)
+            {
+                result += "N\n";
+            }
+            set.Clear();
+        }
+        Console.WriteLine(result);
+    }
+}
