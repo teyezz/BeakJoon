@@ -1,0 +1,31 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        int N = int.Parse(Console.ReadLine());
+        string result = string.Empty;
+        int[] testCase = new int[3];
+        string[] input;
+
+        for(int x = 0; x < N; x++)
+        {
+            input = Console.ReadLine().Split();
+            for(int u = 0; u < 3; u++)
+            {
+                testCase[u] = int.Parse(input[u]);
+            }
+            if (testCase[0] > testCase[1] - testCase[2]) { result += "do not advertise"; }
+            else if (testCase[0] == testCase[1] - testCase[2]) { result += "does not matter"; }
+            else if (testCase[0] < testCase[1] - testCase[2]) { result += "advertise"; }
+            Array.Clear(input, 0, 3);
+            if(x < N - 1)
+            {
+                result += "\n";
+            }
+        }
+        Console.WriteLine(result);
+    }
+}
