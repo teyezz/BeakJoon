@@ -1,0 +1,35 @@
+using System;
+
+class BeakJun
+{
+    static void Main(string[] args)
+    {
+        string[] input = Console.ReadLine().Split();
+        int N = int.Parse(input[0]);
+        int M = int.Parse(input[1]);
+        int curN = N;
+        List<int> result = new List<int>();
+        
+        for(; N < M; N++)
+        {
+            if(N%2 != 0)
+            result.Add(N);
+        }
+        for(; curN <M; curN++)
+        {
+            int i = 2;
+            while (true) 
+            {
+                if (curN * i <= result[result.Count-1])
+                    result.Remove(curN * i);
+                else
+                    break;
+                i++;
+            }
+        }
+        for(int i = 0; i < result.Count; i++)
+        {
+            Console.WriteLine(result[i]);
+        }
+    }
+}
