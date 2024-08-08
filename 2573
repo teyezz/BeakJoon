@@ -24,7 +24,7 @@ class Program
     private static bool[,] Visited;
     private static int ScaleX;
     private static int ScaleY;
-    private static Vector2Int[] Direction =
+    private static readonly Vector2Int[] Direction =
     {
         new Vector2Int (1, 0),
         new Vector2Int (-1, 0),
