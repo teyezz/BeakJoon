@@ -1,0 +1,161 @@
+using System;
+
+class Program
+{
+    #region Feild
+    private struct Vector2Int
+    {
+        public int x; public int y;
+
+        public Vector2Int(int x, int y)
+        {
+            this.x = x; this.y = y;
+        }
+
+        public static Vector2Int operator +(Vector2Int a, Vector2Int b)
+        {
+            return new Vector2Int(
+                a.x + b.x,
+                a.y + b.y
+                );
+        }
+    }
+    private static int[,] Map;
+    private static bool[,] Visited;
+    private static int ScaleX;
+    private static int ScaleY;
+    private static Vector2Int[] Direction =
+    {
+        new Vector2Int (1, 0),
+        new Vector2Int (-1, 0),
+        new Vector2Int (0, 1),
+        new Vector2Int (0, -1),
+    };
+    #endregion
+
+    static void Main(string[] args)
+    {
+        #region GenerateMap
+        string[] inputMapScale = Console.ReadLine().Split();
+        ScaleX = int.Parse(inputMapScale[0]);
+        ScaleY = int.Parse(inputMapScale[1]);
+        Map = new int[ScaleX, ScaleY];
+        for(int i = 0; i < ScaleX; i++)
+        {
+            string[] mapInfo = Console.ReadLine().Split();
+            for(int j = 0; j < ScaleY; j++)
+            {
+                Map[i, j] = int.Parse(mapInfo[j]);
+            }
+        }
+        #endregion
+
+
+        #region Loop
+        int result = 0;
+        while(true)
+        {
+            int iceberg = CountIceberg();
+
+            if(iceberg >= 2)
+            {
+                Console.WriteLine(result);
+                break;
+            }
+            else if(iceberg == 0)
+            {
+                Console.WriteLine(0);
+                break;
+            }
+
+            UpdateMap();
+            result++;
+        }
+        #endregion
+    }
+
+    #region Fuction
+    static int CountIceberg()
+    {
+        Visited = new bool[ScaleX, ScaleY];
+        int iceburg = 0;
+
+        for(int x = 0; x < ScaleX; x++)
+        {
+            for(int y = 0; y < ScaleY; y++)
+            {
+                if(Map[x, y] > 0 && !Visited[x, y])
+                {
+                    DFS(new Vector2Int(x, y));
+                    iceburg++;
+                }
+            }
+        }
+        return iceburg;
+    }
+
+    static void DFS(Vector2Int startPos)
+    {
+        Stack<Vector2Int> stack = new Stack<Vector2Int>();
+        stack.Push(startPos);
+        Visited[startPos.x, startPos.y] = true;
+
+        while(stack.Count > 0)
+        {
+            Vector2Int curPos = stack.Pop();
+
+            foreach(Vector2Int dir in Direction)
+            {
+                Vector2Int neighbor = curPos + dir;
+
+                if(
+                    neighbor.x >= 0 && neighbor.x < ScaleX &&
+                    neighbor.y >= 0 && neighbor.y < ScaleY &&
+                    Map[neighbor.x, neighbor.y] > 0 && !Visited[neighbor.x, neighbor.y]
+                   )
+                {
+                    stack.Push(neighbor);
+                    Visited[neighbor.x, neighbor.y] = true;
+                }
+            }
+        }
+    }
+    static void UpdateMap()
+    {
+        int[,] newMap = new int[ScaleX, ScaleY];
+        for(int x = 0; x < ScaleX; x++)
+        {
+            for(int y = 0; y < ScaleY; y++)
+            {
+                if(Map[x, y] > 0)
+                {
+                    int neighborCount = 0;
+
+                    Vector2Int curPos = new Vector2Int(x, y);
+                    foreach (Vector2Int dir in Direction)
+                    {
+                        Vector2Int neighbor = curPos + dir;
+                        if (
+                            neighbor.x >= 0 && neighbor.x < ScaleX &&
+                            neighbor.y >= 0 && neighbor.y < ScaleY &&
+                            Map[neighbor.x, neighbor.y] == 0
+                           )
+                        {
+                            neighborCount++;
+                        }
+                    }
+                    newMap[x, y] = Math.Max(0, Map[x, y] - neighborCount);
+                }
+            }
+        }
+
+        for (int x = 0; x < ScaleX; x++)
+        {
+            for (int y = 0; y < ScaleY; y++)
+            {
+                Map[x, y] = newMap[x, y];
+            }
+        }
+    }
+    #endregion
+}
